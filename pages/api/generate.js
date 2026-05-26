@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-3-5-sonnet-20241022',
+        model: 'claude-3-haiku-20240307',
         max_tokens: 1000,
         messages: [{ role: 'user', content: `Generate viral hooks for topic: ${topic}, platform: ${platform}, tone: ${tone}. Return only this exact JSON format: {"hooks":[{"text":"hook here","type":"curiosity","score":85},{"text":"hook here","type":"bold_claim","score":90},{"text":"hook here","type":"story","score":78},{"text":"hook here","type":"controversy","score":88},{"text":"hook here","type":"how_to","score":82}],"repurposed":{"tweet_thread_opener":"...","linkedin_post":"...","tiktok_script_hook":"...","youtube_title":"...","newsletter_subject":"..."},"viral_tip":"tip here"}` }],
       }),
