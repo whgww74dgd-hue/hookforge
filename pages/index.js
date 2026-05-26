@@ -34,7 +34,7 @@ export default function Home() {
   const [copiedIndex, setCopiedIndex] = useState(null)
   const [activeTab, setActiveTab] = useState('hooks')
   const [showUpgrade, setShowUpgrade] = useState(false)
-  const [checkoutLoading, setCheckoutLoading] = useState(false)
+
 
   useEffect(() => {
     const saved = parseInt(localStorage.getItem('hf_usage') || '0')
@@ -74,26 +74,12 @@ export default function Home() {
     }
   }
 
-  async function handleCheckout(plan) {
-    setCheckoutLoading(true)
-    try {
-      const variantId =
-        plan === 'monthly'
-          ? process.env.NEXT_PUBLIC_LS_MONTHLY_VARIANT
-          : process.env.NEXT_PUBLIC_LS_LIFETIME_VARIANT
-
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ variantId }),
-      })
-      const data = await res.json()
-      if (data.url) window.location.href = data.url
-    } catch {
-      alert('Could not open checkout. Please try again.')
-    } finally {
-      setCheckoutLoading(false)
+  function handleCheckout(plan) {
+    const urls = {
+      monthly: 'https://leanconsulting.lemonsqueezy.com/checkout/buy/eea7744c-1eff-45f6-88c1-0745e4a8dfae',
+      lifetime: 'https://leanconsulting.lemonsqueezy.com/checkout/buy/8a3197f4-cda6-4152-904e-861439c87d71',
     }
+    window.location.href = urls[plan]
   }
 
   function copyText(text, idx) {
@@ -421,7 +407,6 @@ export default function Home() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   <button
                     onClick={() => handleCheckout('monthly')}
-                    disabled={checkoutLoading}
                     className="btn-glow"
                     style={{
                       padding: '16px 24px',
@@ -431,12 +416,11 @@ export default function Home() {
                       boxShadow: '0 4px 20px rgba(120,40,255,0.4)',
                     }}
                   >
-                    {checkoutLoading ? 'Loading...' : 'Pro Plan — $9 / month'}
+                    Pro Plan — $9 / month
                   </button>
 
                   <button
                     onClick={() => handleCheckout('lifetime')}
-                    disabled={checkoutLoading}
                     style={{
                       padding: '16px 24px',
                       background: 'rgba(255,255,255,0.06)',
